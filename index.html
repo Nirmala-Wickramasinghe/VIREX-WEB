@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIREX | Memory Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Michroma&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #f4f6f9;
+            --bg-panel: #ffffff;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --virex-red: #e60000;
+            --tech-blue: #0ea5e9;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            background-image: linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- Floating Parallax Shapes --- */
+        .parallax-shape {
+            position: absolute;
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0.5;
+            filter: blur(40px);
+        }
+        
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            background: rgba(230, 0, 0, 0.15);
+            top: 15%;
+            left: -10%;
+        }
+
+        .shape-2 {
+            width: 400px;
+            height: 400px;
+            background: rgba(14, 165, 233, 0.15);
+            top: 40%;
+            right: -10%;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+            transition: padding 0.3s ease, background 0.3s ease;
+        }
+
+        .nav-scrolled {
+            padding: 10px 5%;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .logo img {
+            height: 45px;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .logo img:hover {
+            transform: scale(1.08) rotate(-2deg);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--virex-red);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--virex-red);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* --- Hero Section --- */
+        #home {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            padding-top: 80px;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            z-index: 2;
+            will-change: transform, opacity;
+        }
+
+        .hero-title {
+            font-family: 'Michroma', sans-serif;
+            font-size: 4.5rem;
+            letter-spacing: 8px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            color: var(--text-main);
+        }
+
+        .hero-title span {
+            color: var(--virex-red);
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 5px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+
+        .btn {
+            padding: 16px 45px;
+            background: var(--virex-red);
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            cursor: pointer;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 4px;
+            border: none;
+            box-shadow: 0 10px 20px rgba(230, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(230, 0, 0, 0.3);
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: all 0.5s ease;
+        }
+
+        .btn:hover::after {
+            left: 100%;
+        }
+
+        /* --- Sections General --- */
+        section {
+            padding: 100px 5%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-title {
+            font-family: 'Michroma', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            text-align: center;
+            letter-spacing: 2px;
+            color: var(--text-main);
+        }
+
+        .section-title span {
+            color: var(--virex-red);
+        }
+
+        /* --- Moving Carousel --- */
+        .carousel-wrapper {
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            overflow: hidden;
+            padding: 20px 0;
+            background: rgba(255,255,255,0.4);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .carousel-track {
+            display: flex;
+            width: calc(400px * 8 + 40px * 8);
+            animation: scroll 30s linear infinite;
+            gap: 40px;
+            padding: 20px;
+        }
+
+        .carousel-wrapper:hover .carousel-track {
+            animation-play-state: paused;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-400px * 4 - 40px * 4)); }
+        }
+
+        .product-card {
+            min-width: 400px;
+            background: var(--bg-panel);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-color: rgba(230, 0, 0, 0.2);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 220px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+            border-radius: 8px;
+        }
+
+        .product-title {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .product-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* --- About Us --- */
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .about-text strong {
+            color: var(--virex-red);
+            font-weight: 800;
+        }
+
+        .about-visual {
+            height: 450px;
+            background: var(--bg-panel);
+            border-radius: 24px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0,0,0,0.03);
+            overflow: hidden;
+            will-change: transform;
+        }
+
+        .about-visual::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border: 2px dashed rgba(230,0,0,0.2);
+            border-radius: 50%;
+            animation: spin 20s linear infinite;
+        }
+        
+        .about-visual::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border: 1px solid rgba(14, 165, 233, 0.1);
+            border-radius: 50%;
+            animation: spin 30s linear infinite reverse;
+        }
+
+        .about-visual img {
+            z-index: 10;
+            width: 70%;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+            transition: transform 0.5s ease;
+        }
+
+        .about-visual:hover img {
+            transform: scale(1.05);
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: var(--bg-panel);
+            text-align: center;
+            padding: 50px 20px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            margin-top: 50px;
+            position: relative;
+            z-index: 2;
+        }
+
+        footer img {
+            height: 35px;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* --- Scroll Reveal Animation --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Parallax Shapes -->
+    <div class="parallax-shape shape-1" data-speed="-0.3"></div>
+    <div class="parallax-shape shape-2" data-speed="0.2"></div>
+
+    <nav id="navbar">
+        <div class="logo">
+            <a href="#home"><img src="Images/VIREX LOGO.png" alt="VIREX"></a>
+        </div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#products">Products</a>
+            <a href="#about">About Us</a>
+        </div>
+    </nav>
+
+    <section id="home">
+        <div class="hero-content reveal" data-speed="0.4">
+            <h1 class="hero-title">Live <span>Limitless</span></h1>
+            <p class="hero-subtitle">Store More. Access Faster. Virex Memory Solutions </p>
+            <a href="#products" class="btn">Explore Tech</a>
+        </div>
+    </section>
+
+    <section id="products">
+        <h2 class="section-title reveal">Our <span>Products</span></h2>
+        
+        <div class="carousel-wrapper reveal">
+            <div class="carousel-track">
+                
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url('Images/NVME.png');"></div>
+                    <h3 class="product-title">VIREX NVMe M.2 SSD</h3>
+                    <p class="product-desc">Experience lightning-fast boot times and seamless multitasking. Built for ultimate performance gaming and heavy rendering.</p>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url('Images/SD Card.png');"></div>
+                    <h3 class="product-title">VIREX PRO SDXC</h3>
+                    <p class="product-desc">Capture life in stunning 4K and 8K without dropping a single frame. Extreme endurance engineered for cinematographers.</p>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url('Images/Virex Ram.png');"></div>
+                    <h3 class="product-title">VIREX DDR5 RAM</h3>
+                    <p class="product-desc">Push your system beyond its limits. Next-generation memory modules featuring aggressive heat spreaders and stability.</p>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url('Images/Portable SSD.png');"></div>
+                    <h3 class="product-title">VIREX Portable SSD</h3>
+                    <p class="product-desc">Take your entire studio on the go. Rugged, pocket-sized external storage featuring drop protection and blazing speeds.</p>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url('Images/NVME.png');"></div>
+                    <h3 class="product-title">VIREX NVMe M.2 SSD</h3>
+                    <p class="product-desc">Experience lightning-fast boot times and seamless multitasking. Built for ultimate performance gaming and heavy rendering.</p>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url('Images/SD Card 32.png');"></div>
+                    <h3 class="product-title">VIREX PRO SDXC</h3>
+                    <p class="product-desc">Capture life in stunning 4K and 8K without dropping a single frame. Extreme endurance engineered for cinematographers.</p>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url('Images/Portable SSD.png');"></div>
+                    <h3 class="product-title">VIREX Portable SSD</h3>
+                    <p class="product-desc">Take your entire studio on the go. Rugged, pocket-sized external storage featuring drop protection and blazing speeds.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="about-container">
+            <h2 class="section-title reveal">About <span>VIREX</span></h2>
+            <div class="about-grid">
+                <div class="about-text reveal">
+                    <p>At VIREX, we believe that digital boundaries are meant to be broken. Born from a passion for bleeding-edge technology, our memory solutions are engineered to ensure you never have to compromise on speed or reliability.</p>
+                    <p>Whether you are rendering complex 3D environments, capturing cinematic masterpieces, or building the ultimate gaming rig, VIREX hardware operates silently in the background so you can focus on pushing your own limits.</p>
+                    <p><strong>Store More. Access Faster. Live Limitless.</strong></p>
+                </div>
+                <div class="about-visual reveal" data-speed="0.1">
+                    <img src="Images/VIREX LOGO.png" alt="Virex Branding">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <img src="Images/Virex Final 02.png" alt="VIREX">
+        <p>&copy; 2026 VIREX Memory Solutions. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Reveal Elements on Scroll
+        function reveal() {
+            const reveals = document.querySelectorAll(".reveal");
+            for (let i = 0; i < reveals.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveals[i].getBoundingClientRect().top;
+                const elementVisible = 100;
+
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+
+        // Parallax and Navbar Scroll Effects
+        function handleScrollEffects() {
+            const scrolled = window.scrollY;
+            
+            // Navbar Shrink Effect
+            const navbar = document.getElementById("navbar");
+            if (scrolled > 50) {
+                navbar.classList.add("nav-scrolled");
+            } else {
+                navbar.classList.remove("nav-scrolled");
+            }
+
+            // Parallax Elements (Hero text, Background shapes, About visual)
+            document.querySelectorAll('[data-speed]').forEach(el => {
+                const speed = el.getAttribute('data-speed');
+                const yPos = -(scrolled * speed);
+                
+                // Fade out hero text slightly as it scrolls down
+                if(el.classList.contains('hero-content')) {
+                    const opacity = 1 - (scrolled * 0.003);
+                    el.style.transform = `translateY(${-yPos}px)`;
+                    el.style.opacity = opacity > 0 ? opacity : 0;
+                } else {
+                    el.style.transform = `translateY(${yPos}px)`;
+                }
+            });
+        }
+        
+        window.addEventListener("scroll", () => {
+            requestAnimationFrame(() => {
+                reveal();
+                handleScrollEffects();
+            });
+        });
+        
+        // Trigger once on load
+        reveal();
+        handleScrollEffects();
+    </script>
+</body>
+</html>
