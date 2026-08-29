@@ -36,6 +36,88 @@
             position: relative;
         }
 
+        /* --- Preloader --- */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-main);
+            background-image: linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.6s ease-out, visibility 0.6s ease-out;
+        }
+
+        #preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* Animated SD Card / Memory Chip */
+        .memory-icon {
+            width: 80px;
+            height: 110px;
+            border: 4px solid var(--text-main);
+            border-radius: 8px 30px 8px 8px; /* Classic SD card cut corner */
+            position: relative;
+            display: flex;
+            justify-content: space-evenly;
+            padding-top: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* The data filling effect */
+        .memory-icon::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            background: var(--virex-red);
+            animation: fillData 1.5s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        /* Data Pins */
+        .pin {
+            width: 6px;
+            height: 20px;
+            background: var(--text-main);
+            border-radius: 0 0 3px 3px;
+            z-index: 1;
+            transition: background 0.3s;
+        }
+
+        .loading-text {
+            margin-top: 30px;
+            font-family: 'Michroma', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 6px;
+            color: var(--text-main);
+            text-transform: uppercase;
+            animation: pulseText 1.5s ease-in-out infinite;
+        }
+
+        @keyframes fillData {
+            0% { height: 0%; opacity: 0.8; }
+            50% { height: 100%; box-shadow: 0 0 30px var(--virex-red); opacity: 1; }
+            100% { height: 0%; opacity: 0.8; }
+        }
+
+        @keyframes pulseText {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; text-shadow: 0 0 10px rgba(230,0,0,0.4); }
+        }
+
         /* --- Floating Parallax Shapes --- */
         .parallax-shape {
             position: absolute;
@@ -426,6 +508,17 @@
 </head>
 <body>
 
+    <!-- Tech Preloader -->
+    <div id="preloader">
+        <div class="memory-icon">
+            <div class="pin"></div>
+            <div class="pin"></div>
+            <div class="pin"></div>
+            <div class="pin"></div>
+        </div>
+        <div class="loading-text">Loading Data</div>
+    </div>
+
     <!-- Background Parallax Shapes -->
     <div class="parallax-shape shape-1" data-speed="-0.3"></div>
     <div class="parallax-shape shape-2" data-speed="0.2"></div>
@@ -479,6 +572,7 @@
                     <p class="product-desc">Take your entire studio on the go. Rugged, pocket-sized external storage featuring drop protection and blazing speeds.</p>
                 </div>
 
+                <!-- Duplicated for Infinite Scroll Illusion -->
                 <div class="product-card">
                     <div class="product-image" style="background-image: url('Images/NVME.png');"></div>
                     <h3 class="product-title">VIREX NVMe M.2 SSD</h3>
@@ -506,9 +600,9 @@
             <h2 class="section-title reveal">About <span>VIREX</span></h2>
             <div class="about-grid">
                 <div class="about-text reveal">
-                    <p>At VIREX, we believe that digital boundaries are meant to be broken. Born from a passion for bleeding-edge technology, our memory solutions are engineered to ensure you never have to compromise on speed or reliability.</p>
-                    <p>Whether you are rendering complex 3D environments, capturing cinematic masterpieces, or building the ultimate gaming rig, VIREX hardware operates silently in the background so you can focus on pushing your own limits.</p>
-                    <p><strong>Store More. Access Faster. Live Limitless.</strong></p>
+                    <p>At VIREX, we believe that digital boundaries are meant to be broken. Born from a passion for bleeding-edge technology, our memory solutions are engineered to ensure you never have to compromise on speed or reliability[cite: 1].</p>
+                    <p>Whether you are rendering complex 3D environments, capturing cinematic masterpieces, or building the ultimate gaming rig, VIREX hardware operates silently in the background so you can focus on pushing your own limits[cite: 1].</p>
+                    <p><strong>Store More. Access Faster. Live Limitless[cite: 1].</strong></p>
                 </div>
                 <div class="about-visual reveal" data-speed="0.1">
                     <img src="Images/VIREX LOGO.png" alt="Virex Branding">
@@ -523,6 +617,17 @@
     </footer>
 
     <script>
+        // Preloader Logic
+        window.addEventListener("load", () => {
+            const preloader = document.getElementById("preloader");
+            // Set a slight artificial delay so the animation runs for at least 1.5 seconds
+            setTimeout(() => {
+                preloader.classList.add("hidden");
+                // Allow body to scroll again (optional, depending on preference)
+                document.body.style.overflowY = "auto";
+            }, 1500); 
+        });
+
         // Reveal Elements on Scroll
         function reveal() {
             const reveals = document.querySelectorAll(".reveal");
