@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VIREX | Memory Solutions</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Michroma&display=swap" rel="stylesheet">
+
     <style>
         :root {
             --bg-main: #f4f6f9;
@@ -25,10 +27,16 @@
             scroll-behavior: smooth;
         }
 
+        html {
+            overflow-x: hidden;
+            scroll-padding-top: 85px;
+        }
+
         body {
             background-color: var(--bg-main);
-            background-image: linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+            background-image:
+                linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
             background-size: 30px 30px;
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
@@ -36,23 +44,35 @@
             position: relative;
         }
 
-        /* --- Preloader --- */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* =========================================================
+           PRELOADER
+        ========================================================= */
+
         #preloader {
             position: fixed;
-            top: 0;
-            left: 0;
+            inset: 0;
             width: 100%;
             height: 100%;
             background-color: var(--bg-main);
-            background-image: linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+            background-image:
+                linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
             background-size: 30px 30px;
             z-index: 9999;
+
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.6s ease-out, visibility 0.6s ease-out;
+
+            transition:
+                opacity 0.6s ease-out,
+                visibility 0.6s ease-out;
         }
 
         #preloader.hidden {
@@ -60,77 +80,123 @@
             visibility: hidden;
         }
 
-        /* Animated SD Card / Memory Chip */
+        /* Animated SD Card */
         .memory-icon {
             width: 80px;
             height: 110px;
+
             border: 4px solid var(--text-main);
-            border-radius: 8px 30px 8px 8px; /* Classic SD card cut corner */
+            border-radius: 8px 30px 8px 8px;
+
             position: relative;
+
             display: flex;
             justify-content: space-evenly;
+
             padding-top: 15px;
             overflow: hidden;
+
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
-        /* The data filling effect */
         .memory-icon::before {
             content: '';
+
             position: absolute;
             bottom: 0;
             left: 0;
+
             width: 100%;
             height: 0%;
+
             background: var(--virex-red);
+
             animation: fillData 1.5s ease-in-out infinite;
+
             z-index: 0;
         }
 
-        /* Data Pins */
         .pin {
             width: 6px;
             height: 20px;
+
             background: var(--text-main);
+
             border-radius: 0 0 3px 3px;
+
             z-index: 1;
+
             transition: background 0.3s;
         }
 
         .loading-text {
             margin-top: 30px;
+
             font-family: 'Michroma', sans-serif;
+
             font-size: 1.2rem;
+
             letter-spacing: 6px;
+
             color: var(--text-main);
+
             text-transform: uppercase;
+
             animation: pulseText 1.5s ease-in-out infinite;
         }
 
         @keyframes fillData {
-            0% { height: 0%; opacity: 0.8; }
-            50% { height: 100%; box-shadow: 0 0 30px var(--virex-red); opacity: 1; }
-            100% { height: 0%; opacity: 0.8; }
+            0% {
+                height: 0%;
+                opacity: 0.8;
+            }
+
+            50% {
+                height: 100%;
+                box-shadow: 0 0 30px var(--virex-red);
+                opacity: 1;
+            }
+
+            100% {
+                height: 0%;
+                opacity: 0.8;
+            }
         }
 
         @keyframes pulseText {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 1; text-shadow: 0 0 10px rgba(230,0,0,0.4); }
+            0%, 100% {
+                opacity: 0.4;
+            }
+
+            50% {
+                opacity: 1;
+                text-shadow: 0 0 10px rgba(230,0,0,0.4);
+            }
         }
 
-        /* --- Floating Parallax Shapes --- */
+        /* =========================================================
+           FLOATING BACKGROUND SHAPES
+        ========================================================= */
+
         .parallax-shape {
             position: absolute;
             border-radius: 50%;
+
             z-index: -1;
+
             opacity: 0.5;
+
             filter: blur(40px);
+
+            pointer-events: none;
         }
-        
+
         .shape-1 {
             width: 300px;
             height: 300px;
+
             background: rgba(230, 0, 0, 0.15);
+
             top: 15%;
             left: -10%;
         }
@@ -138,37 +204,65 @@
         .shape-2 {
             width: 400px;
             height: 400px;
+
             background: rgba(14, 165, 233, 0.15);
+
             top: 40%;
             right: -10%;
         }
 
-        /* --- Navigation --- */
+        /* =========================================================
+           NAVIGATION
+        ========================================================= */
+
         nav {
             position: fixed;
+
             top: 0;
+            left: 0;
+
             width: 100%;
+
             padding: 15px 5%;
+
             display: flex;
             justify-content: space-between;
             align-items: center;
+
             background: var(--glass-bg);
+
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
+
             border-bottom: 1px solid var(--glass-border);
+
             z-index: 1000;
+
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
-            transition: padding 0.3s ease, background 0.3s ease;
+
+            transition:
+                padding 0.3s ease,
+                background 0.3s ease;
         }
 
         .nav-scrolled {
             padding: 10px 5%;
+
             background: rgba(255, 255, 255, 0.9);
+        }
+
+        .logo {
+            flex-shrink: 0;
         }
 
         .logo img {
             height: 45px;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: auto;
+
+            display: block;
+
+            transition:
+                transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .logo img:hover {
@@ -177,17 +271,26 @@
 
         .nav-links {
             display: flex;
+            align-items: center;
+
             gap: 35px;
         }
 
         .nav-links a {
             color: var(--text-main);
+
             text-decoration: none;
+
             font-size: 0.85rem;
+
             font-weight: 600;
+
             letter-spacing: 1.5px;
+
             text-transform: uppercase;
+
             position: relative;
+
             transition: color 0.3s;
         }
 
@@ -197,13 +300,19 @@
 
         .nav-links a::after {
             content: '';
+
             position: absolute;
+
             width: 0;
             height: 2px;
+
             bottom: -5px;
             left: 50%;
+
             transform: translateX(-50%);
+
             background-color: var(--virex-red);
+
             transition: width 0.3s ease;
         }
 
@@ -211,80 +320,189 @@
             width: 100%;
         }
 
-        /* --- Hero Section --- */
+        /* Mobile Menu Button */
+
+        .nav-toggle {
+            display: none;
+
+            width: 44px;
+            height: 44px;
+
+            padding: 8px;
+
+            border: 1px solid rgba(0,0,0,0.08);
+
+            border-radius: 8px;
+
+            background: rgba(255,255,255,0.75);
+
+            cursor: pointer;
+
+            align-items: center;
+            justify-content: center;
+
+            flex-direction: column;
+
+            gap: 5px;
+        }
+
+        .nav-toggle span {
+            display: block;
+
+            width: 22px;
+            height: 2px;
+
+            border-radius: 2px;
+
+            background: var(--text-main);
+
+            transition:
+                transform 0.3s ease,
+                opacity 0.3s ease;
+        }
+
+        .nav-toggle.active span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .nav-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .nav-toggle.active span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        /* =========================================================
+           HERO
+        ========================================================= */
+
         #home {
             min-height: 100vh;
+
             display: flex;
             flex-direction: column;
+
             justify-content: center;
             align-items: center;
+
             text-align: center;
+
             position: relative;
-            padding-top: 80px;
+
+            padding: 80px 5%;
+
             overflow: hidden;
         }
 
         .hero-content {
             z-index: 2;
+
+            width: 100%;
+            max-width: 1100px;
+
             will-change: transform, opacity;
         }
 
         .hero-title {
             font-family: 'Michroma', sans-serif;
+
             font-size: 4.5rem;
+
             letter-spacing: 8px;
+
             margin-bottom: 20px;
+
             text-transform: uppercase;
+
             color: var(--text-main);
+
+            line-height: 1.15;
         }
 
         .hero-title span {
             color: var(--virex-red);
+
             position: relative;
+
             display: inline-block;
         }
 
         .hero-subtitle {
             font-size: 1.1rem;
+
             font-weight: 600;
+
             letter-spacing: 5px;
+
             color: var(--text-muted);
+
             margin-bottom: 40px;
+
             text-transform: uppercase;
+
+            line-height: 1.6;
         }
 
         .btn {
             padding: 16px 45px;
+
             background: var(--virex-red);
+
             color: white;
+
             font-size: 0.9rem;
+
             font-weight: 800;
+
             letter-spacing: 2px;
+
             cursor: pointer;
+
             text-transform: uppercase;
+
             text-decoration: none;
+
             border-radius: 4px;
+
             border: none;
+
             box-shadow: 0 10px 20px rgba(230, 0, 0, 0.2);
+
             transition: all 0.3s ease;
+
             position: relative;
+
             overflow: hidden;
+
             display: inline-block;
         }
 
         .btn:hover {
             transform: translateY(-3px);
+
             box-shadow: 0 15px 25px rgba(230, 0, 0, 0.3);
         }
 
         .btn::after {
             content: '';
+
             position: absolute;
+
             top: 0;
             left: -100%;
+
             width: 50%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255,255,255,0.4),
+                    transparent
+                );
+
             transition: all 0.5s ease;
         }
 
@@ -292,46 +510,70 @@
             left: 100%;
         }
 
-        /* --- Sections General --- */
+        /* =========================================================
+           GENERAL SECTIONS
+        ========================================================= */
+
         section {
             padding: 100px 5%;
+
             position: relative;
+
             z-index: 2;
         }
 
         .section-title {
             font-family: 'Michroma', sans-serif;
+
             font-size: 2.5rem;
+
             margin-bottom: 60px;
+
             text-align: center;
+
             letter-spacing: 2px;
+
             color: var(--text-main);
+
+            line-height: 1.25;
         }
 
         .section-title span {
             color: var(--virex-red);
         }
 
-        /* --- Moving Carousel --- */
+        /* =========================================================
+           PRODUCT CAROUSEL
+        ========================================================= */
+
         .carousel-wrapper {
             width: 100vw;
+
             position: relative;
+
             left: 50%;
-            right: 50%;
+
             margin-left: -50vw;
-            margin-right: -50vw;
+
             overflow: hidden;
+
             padding: 20px 0;
+
             background: rgba(255,255,255,0.4);
+
             border-top: 1px solid var(--glass-border);
             border-bottom: 1px solid var(--glass-border);
         }
 
         .carousel-track {
             display: flex;
-            width: calc(400px * 8 + 40px * 8);
+
+            width: max-content;
+
             animation: scroll 30s linear infinite;
+
             gap: 40px;
+
             padding: 20px;
         }
 
@@ -340,125 +582,207 @@
         }
 
         @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(calc(-400px * 4 - 40px * 4)); }
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(calc(-400px * 4 - 40px * 4));
+            }
         }
 
         .product-card {
             min-width: 400px;
+
             background: var(--bg-panel);
+
             border-radius: 12px;
+
             padding: 25px;
+
             box-shadow: var(--shadow);
+
             border: 1px solid rgba(0,0,0,0.05);
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
+
+            transition:
+                transform 0.4s ease,
+                box-shadow 0.4s ease;
+
             display: flex;
+
             flex-direction: column;
+
             cursor: pointer;
         }
 
         .product-card:hover {
             transform: translateY(-10px) scale(1.02);
+
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+
             border-color: rgba(230, 0, 0, 0.2);
         }
 
         .product-image {
             width: 100%;
+
             height: 220px;
+
             background-color: #f0f0f0;
+
             border-radius: 8px;
+
             margin-bottom: 25px;
+
             background-size: cover;
+
             background-position: center;
+
+            background-repeat: no-repeat;
+
             position: relative;
+
             overflow: hidden;
         }
-        
+
         .product-image::after {
             content: '';
+
             position: absolute;
+
             inset: 0;
+
             box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+
             border-radius: 8px;
+
+            pointer-events: none;
         }
 
         .product-title {
             font-size: 1.4rem;
+
             margin-bottom: 12px;
+
             font-weight: 800;
+
             letter-spacing: 0.5px;
+
+            line-height: 1.35;
         }
 
         .product-desc {
             color: var(--text-muted);
+
             font-size: 0.95rem;
+
             line-height: 1.6;
         }
 
-        /* --- About Us --- */
+        /* =========================================================
+           ABOUT
+        ========================================================= */
+
         .about-container {
+            width: 100%;
+
             max-width: 1200px;
+
             margin: 0 auto;
         }
 
         .about-grid {
             display: grid;
+
             grid-template-columns: 1fr 1fr;
+
             gap: 60px;
+
             align-items: center;
         }
 
         .about-text p {
             color: var(--text-muted);
+
             font-size: 1.15rem;
+
             line-height: 1.8;
+
             margin-bottom: 25px;
         }
 
         .about-text strong {
             color: var(--virex-red);
+
             font-weight: 800;
         }
 
         .about-visual {
+            width: 100%;
+
             height: 450px;
+
             background: var(--bg-panel);
+
             border-radius: 24px;
+
             position: relative;
+
             display: flex;
+
             justify-content: center;
             align-items: center;
+
             box-shadow: var(--shadow);
+
             border: 1px solid rgba(0,0,0,0.03);
+
             overflow: hidden;
+
             will-change: transform;
         }
 
         .about-visual::before {
             content: '';
+
             position: absolute;
+
             width: 300px;
             height: 300px;
+
             border: 2px dashed rgba(230,0,0,0.2);
+
             border-radius: 50%;
+
             animation: spin 20s linear infinite;
         }
-        
+
         .about-visual::after {
             content: '';
+
             position: absolute;
+
             width: 400px;
             height: 400px;
+
             border: 1px solid rgba(14, 165, 233, 0.1);
+
             border-radius: 50%;
+
             animation: spin 30s linear infinite reverse;
         }
 
         .about-visual img {
+            position: relative;
+
             z-index: 10;
+
             width: 70%;
+
+            max-width: 350px;
+
             filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+
             transition: transform 0.5s ease;
         }
 
@@ -467,219 +791,1234 @@
         }
 
         @keyframes spin {
-            100% { transform: rotate(360deg); }
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
-        /* --- Footer --- */
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
         footer {
             background: var(--bg-panel);
+
             text-align: center;
+
             padding: 50px 20px;
+
             border-top: 1px solid rgba(0,0,0,0.05);
+
             margin-top: 50px;
+
             position: relative;
+
             z-index: 2;
         }
 
         footer img {
             height: 35px;
+
+            width: auto;
+
             margin-bottom: 20px;
+
             opacity: 0.8;
         }
 
         footer p {
             color: var(--text-muted);
+
             font-size: 0.9rem;
+
             font-weight: 600;
+
+            line-height: 1.6;
         }
 
-        /* --- Scroll Reveal Animation --- */
+        /* =========================================================
+           SCROLL REVEAL
+        ========================================================= */
+
         .reveal {
             opacity: 0;
+
             transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+
+            transition:
+                all 0.8s cubic-bezier(0.5, 0, 0, 1);
         }
 
         .reveal.active {
             opacity: 1;
+
             transform: translateY(0);
+        }
+
+        /* =========================================================
+           LARGE TABLETS / SMALL LAPTOPS
+        ========================================================= */
+
+        @media (max-width: 1100px) {
+
+            nav {
+                padding-left: 4%;
+                padding-right: 4%;
+            }
+
+            .hero-title {
+                font-size: clamp(3.2rem, 7vw, 4.5rem);
+            }
+
+            .about-grid {
+                gap: 40px;
+            }
+
+            .product-card {
+                min-width: min(400px, 72vw);
+            }
+        }
+
+        /* =========================================================
+           TABLETS
+        ========================================================= */
+
+        @media (max-width: 800px) {
+
+            nav,
+            .nav-scrolled {
+                padding: 12px 5%;
+            }
+
+            .logo img {
+                height: 38px;
+            }
+
+            /* Show hamburger */
+
+            .nav-toggle {
+                display: flex;
+            }
+
+            /* Mobile dropdown */
+
+            .nav-links {
+                position: absolute;
+
+                top: calc(100% + 1px);
+
+                left: 0;
+                right: 0;
+
+                width: 100%;
+
+                padding: 12px 5% 18px;
+
+                display: flex;
+
+                flex-direction: column;
+
+                align-items: stretch;
+
+                gap: 0;
+
+                background: rgba(255,255,255,0.97);
+
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+
+                border-bottom: 1px solid rgba(0,0,0,0.06);
+
+                box-shadow: 0 15px 30px rgba(0,0,0,0.06);
+
+                opacity: 0;
+
+                visibility: hidden;
+
+                transform: translateY(-10px);
+
+                pointer-events: none;
+
+                transition:
+                    opacity 0.25s ease,
+                    transform 0.25s ease,
+                    visibility 0.25s ease;
+            }
+
+            .nav-links.open {
+                opacity: 1;
+
+                visibility: visible;
+
+                transform: translateY(0);
+
+                pointer-events: auto;
+            }
+
+            .nav-links a {
+                display: block;
+
+                padding: 15px 4px;
+
+                font-size: 0.82rem;
+
+                border-bottom: 1px solid rgba(0,0,0,0.05);
+            }
+
+            .nav-links a:last-child {
+                border-bottom: 0;
+            }
+
+            .nav-links a::after {
+                left: 0;
+
+                transform: none;
+
+                bottom: 8px;
+            }
+
+            /* Hero */
+
+            #home {
+                min-height: 100svh;
+
+                padding:
+                    110px 6%
+                    70px;
+            }
+
+            .hero-title {
+                font-size:
+                    clamp(2.35rem, 9vw, 3.6rem);
+
+                letter-spacing:
+                    clamp(3px, 1.4vw, 7px);
+
+                line-height: 1.15;
+            }
+
+            .hero-subtitle {
+                max-width: 650px;
+
+                margin:
+                    0 auto 32px;
+
+                font-size:
+                    clamp(0.78rem, 2vw, 1rem);
+
+                letter-spacing:
+                    clamp(2px, 0.8vw, 4px);
+
+                line-height: 1.7;
+            }
+
+            /* Sections */
+
+            section {
+                padding: 80px 5%;
+            }
+
+            .section-title {
+                font-size:
+                    clamp(1.75rem, 5.5vw, 2.5rem);
+
+                margin-bottom: 45px;
+
+                line-height: 1.25;
+            }
+
+            /* Product carousel */
+
+            .carousel-track {
+                gap: 20px;
+
+                padding: 15px;
+            }
+
+            .product-card {
+                min-width:
+                    min(360px, 78vw);
+
+                padding: 20px;
+            }
+
+            .product-image {
+                height:
+                    clamp(190px, 32vw, 220px);
+            }
+
+            /* About */
+
+            .about-grid {
+                grid-template-columns: 1fr;
+
+                gap: 40px;
+            }
+
+            .about-text p {
+                font-size: 1rem;
+
+                line-height: 1.75;
+            }
+
+            .about-visual {
+                height:
+                    min(420px, 75vw);
+
+                min-height: 300px;
+            }
+
+            .about-visual img {
+                width:
+                    min(70%, 300px);
+            }
+
+            /* Background shapes */
+
+            .shape-1 {
+                width: 220px;
+                height: 220px;
+            }
+
+            .shape-2 {
+                width: 280px;
+                height: 280px;
+            }
+        }
+
+        /* =========================================================
+           PHONES
+        ========================================================= */
+
+        @media (max-width: 520px) {
+
+            nav,
+            .nav-scrolled {
+                padding: 10px 4%;
+            }
+
+            .logo img {
+                height: 34px;
+            }
+
+            .nav-toggle {
+                width: 40px;
+                height: 40px;
+            }
+
+            /* Hero */
+
+            #home {
+                padding:
+                    100px 5%
+                    60px;
+            }
+
+            .hero-title {
+                font-size:
+                    clamp(2rem, 12vw, 2.8rem);
+
+                letter-spacing: 2px;
+
+                margin-bottom: 16px;
+            }
+
+            .hero-subtitle {
+                font-size: 0.72rem;
+
+                letter-spacing: 1.5px;
+
+                line-height: 1.8;
+
+                margin-bottom: 28px;
+            }
+
+            .btn {
+                width: 100%;
+
+                max-width: 260px;
+
+                padding: 14px 24px;
+
+                font-size: 0.78rem;
+
+                letter-spacing: 1.5px;
+            }
+
+            /* Sections */
+
+            section {
+                padding: 65px 4%;
+            }
+
+            .section-title {
+                font-size: 1.65rem;
+
+                margin-bottom: 32px;
+            }
+
+            /* Carousel */
+
+            .carousel-wrapper {
+                width: 100vw;
+
+                left: 50%;
+
+                margin-left: -50vw;
+            }
+
+            .carousel-track {
+                gap: 14px;
+
+                padding: 12px;
+
+                animation-duration: 24s;
+            }
+
+            .product-card {
+                min-width: 82vw;
+
+                max-width: 82vw;
+
+                padding: 16px;
+
+                border-radius: 10px;
+            }
+
+            .product-image {
+                height: 180px;
+
+                margin-bottom: 18px;
+            }
+
+            .product-title {
+                font-size: 1.1rem;
+
+                line-height: 1.35;
+
+                margin-bottom: 8px;
+            }
+
+            .product-desc {
+                font-size: 0.84rem;
+
+                line-height: 1.55;
+            }
+
+            /* About */
+
+            .about-grid {
+                gap: 28px;
+            }
+
+            .about-text p {
+                font-size: 0.93rem;
+
+                line-height: 1.7;
+
+                margin-bottom: 18px;
+            }
+
+            .about-visual {
+                height: 300px;
+
+                min-height: 0;
+
+                border-radius: 18px;
+            }
+
+            .about-visual::before {
+                width: 210px;
+                height: 210px;
+            }
+
+            .about-visual::after {
+                width: 270px;
+                height: 270px;
+            }
+
+            .about-visual img {
+                width: 65%;
+            }
+
+            /* Footer */
+
+            footer {
+                padding: 38px 15px;
+
+                margin-top: 25px;
+            }
+
+            footer img {
+                height: 30px;
+
+                margin-bottom: 15px;
+            }
+
+            footer p {
+                font-size: 0.76rem;
+
+                line-height: 1.6;
+            }
+
+            /* Shapes */
+
+            .parallax-shape {
+                filter: blur(28px);
+            }
+
+            .shape-1 {
+                width: 170px;
+                height: 170px;
+
+                left: -20%;
+            }
+
+            .shape-2 {
+                width: 220px;
+                height: 220px;
+
+                right: -20%;
+            }
+        }
+
+        /* =========================================================
+           SMALL PHONES
+        ========================================================= */
+
+        @media (max-width: 360px) {
+
+            .hero-title {
+                font-size: 1.85rem;
+            }
+
+            .hero-subtitle {
+                font-size: 0.66rem;
+            }
+
+            .product-card {
+                min-width: 86vw;
+
+                max-width: 86vw;
+            }
+
+            .product-image {
+                height: 160px;
+            }
+
+            .section-title {
+                font-size: 1.45rem;
+            }
+        }
+
+        /* =========================================================
+           TOUCH DEVICES
+        ========================================================= */
+
+        @media (hover: none) {
+
+            .product-card:hover,
+            .btn:hover,
+            .logo img:hover,
+            .about-visual:hover img {
+                transform: none;
+            }
+
+            .carousel-wrapper:hover .carousel-track {
+                animation-play-state: running;
+            }
+        }
+
+        /* =========================================================
+           REDUCED MOTION
+        ========================================================= */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+
+                animation-duration: 0.01ms !important;
+
+                animation-iteration-count: 1 !important;
+
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
+
 <body>
 
-    <!-- Tech Preloader -->
+    <!-- =========================================================
+         PRELOADER
+    ========================================================= -->
+
     <div id="preloader">
+
         <div class="memory-icon">
             <div class="pin"></div>
             <div class="pin"></div>
             <div class="pin"></div>
             <div class="pin"></div>
         </div>
-        <div class="loading-text">Loading Data</div>
+
+        <div class="loading-text">
+            Loading Data
+        </div>
+
     </div>
 
-    <!-- Background Parallax Shapes -->
-    <div class="parallax-shape shape-1" data-speed="-0.3"></div>
-    <div class="parallax-shape shape-2" data-speed="0.2"></div>
+
+    <!-- =========================================================
+         BACKGROUND SHAPES
+    ========================================================= -->
+
+    <div
+        class="parallax-shape shape-1"
+        data-speed="-0.3">
+    </div>
+
+    <div
+        class="parallax-shape shape-2"
+        data-speed="0.2">
+    </div>
+
+
+    <!-- =========================================================
+         NAVIGATION
+    ========================================================= -->
 
     <nav id="navbar">
+
         <div class="logo">
-            <a href="#home"><img src="Images/VIREX LOGO.png" alt="VIREX"></a>
+
+            <a href="#home">
+
+                <img
+                    src="Images/VIREX LOGO.png"
+                    alt="VIREX">
+
+            </a>
+
         </div>
-        <div class="nav-links">
-            <a href="#home">Home</a>
-            <a href="#products">Products</a>
-            <a href="#about">About Us</a>
+
+
+        <div
+            class="nav-links"
+            id="navLinks">
+
+            <a href="#home">
+                Home
+            </a>
+
+            <a href="#products">
+                Products
+            </a>
+
+            <a href="#about">
+                About Us
+            </a>
+
         </div>
+
+
+        <!-- Mobile Hamburger -->
+
+        <button
+            class="nav-toggle"
+            id="navToggle"
+            aria-label="Open navigation"
+            aria-expanded="false">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </button>
+
     </nav>
 
+
+    <!-- =========================================================
+         HERO
+    ========================================================= -->
+
     <section id="home">
-        <div class="hero-content reveal" data-speed="0.4">
-            <h1 class="hero-title">Live <span>Limitless</span></h1>
-            <p class="hero-subtitle">Store More. Access Faster. Virex Memory Solutions </p>
-            <a href="#products" class="btn">Explore Tech</a>
+
+        <div
+            class="hero-content reveal"
+            data-speed="0.4">
+
+            <h1 class="hero-title">
+
+                Live
+                <span>Limitless</span>
+
+            </h1>
+
+            <p class="hero-subtitle">
+                Store More. Access Faster. Virex Memory Solutions
+            </p>
+
+            <a
+                href="#products"
+                class="btn">
+
+                Explore Tech
+
+            </a>
+
         </div>
+
     </section>
+
+
+    <!-- =========================================================
+         PRODUCTS
+    ========================================================= -->
 
     <section id="products">
-        <h2 class="section-title reveal">Our <span>Products</span></h2>
-        
+
+        <h2 class="section-title reveal">
+
+            Our
+            <span>Products</span>
+
+        </h2>
+
+
         <div class="carousel-wrapper reveal">
+
             <div class="carousel-track">
-                
+
+
+                <!-- Product 1 -->
+
                 <div class="product-card">
-                    <div class="product-image" style="background-image: url('Images/NVME.png');"></div>
-                    <h3 class="product-title">VIREX NVMe M.2 SSD</h3>
-                    <p class="product-desc">Experience lightning-fast boot times and seamless multitasking. Built for ultimate performance gaming and heavy rendering.</p>
-                </div>
-                
-                <div class="product-card">
-                    <div class="product-image" style="background-image: url('Images/SD Card.png');"></div>
-                    <h3 class="product-title">VIREX PRO SDXC</h3>
-                    <p class="product-desc">Capture life in stunning 4K and 8K without dropping a single frame. Extreme endurance engineered for cinematographers.</p>
-                </div>
-                
-                <div class="product-card">
-                    <div class="product-image" style="background-image: url('Images/Virex Ram.png');"></div>
-                    <h3 class="product-title">VIREX DDR5 RAM</h3>
-                    <p class="product-desc">Push your system beyond its limits. Next-generation memory modules featuring aggressive heat spreaders and stability.</p>
-                </div>
-                
-                <div class="product-card">
-                    <div class="product-image" style="background-image: url('Images/Portable SSD.png');"></div>
-                    <h3 class="product-title">VIREX Portable SSD</h3>
-                    <p class="product-desc">Take your entire studio on the go. Rugged, pocket-sized external storage featuring drop protection and blazing speeds.</p>
+
+                    <div
+                        class="product-image"
+                        style="background-image: url('Images/NVME.png');">
+                    </div>
+
+                    <h3 class="product-title">
+                        VIREX NVMe M.2 SSD
+                    </h3>
+
+                    <p class="product-desc">
+                        Experience lightning-fast boot times and seamless multitasking.
+                        Built for ultimate performance gaming and heavy rendering.
+                    </p>
+
                 </div>
 
-                <!-- Duplicated for Infinite Scroll Illusion -->
+
+                <!-- Product 2 -->
+
                 <div class="product-card">
-                    <div class="product-image" style="background-image: url('Images/NVME.png');"></div>
-                    <h3 class="product-title">VIREX NVMe M.2 SSD</h3>
-                    <p class="product-desc">Experience lightning-fast boot times and seamless multitasking. Built for ultimate performance gaming and heavy rendering.</p>
+
+                    <div
+                        class="product-image"
+                        style="background-image: url('Images/SD Card.png');">
+                    </div>
+
+                    <h3 class="product-title">
+                        VIREX PRO SDXC
+                    </h3>
+
+                    <p class="product-desc">
+                        Capture life in stunning 4K and 8K without dropping a single frame.
+                        Extreme endurance engineered for cinematographers.
+                    </p>
+
                 </div>
-                
+
+
+                <!-- Product 3 -->
+
                 <div class="product-card">
-                    <div class="product-image" style="background-image: url('Images/SD Card 32.png');"></div>
-                    <h3 class="product-title">VIREX PRO SDXC</h3>
-                    <p class="product-desc">Capture life in stunning 4K and 8K without dropping a single frame. Extreme endurance engineered for cinematographers.</p>
+
+                    <div
+                        class="product-image"
+                        style="background-image: url('Images/Virex Ram.png');">
+                    </div>
+
+                    <h3 class="product-title">
+                        VIREX DDR5 RAM
+                    </h3>
+
+                    <p class="product-desc">
+                        Push your system beyond its limits.
+                        Next-generation memory modules featuring aggressive heat spreaders and stability.
+                    </p>
+
                 </div>
-                
+
+
+                <!-- Product 4 -->
+
                 <div class="product-card">
-                    <div class="product-image" style="background-image: url('Images/Portable SSD.png');"></div>
-                    <h3 class="product-title">VIREX Portable SSD</h3>
-                    <p class="product-desc">Take your entire studio on the go. Rugged, pocket-sized external storage featuring drop protection and blazing speeds.</p>
+
+                    <div
+                        class="product-image"
+                        style="background-image: url('Images/Portable SSD.png');">
+                    </div>
+
+                    <h3 class="product-title">
+                        VIREX Portable SSD
+                    </h3>
+
+                    <p class="product-desc">
+                        Take your entire studio on the go.
+                        Rugged, pocket-sized external storage featuring drop protection and blazing speeds.
+                    </p>
+
+                </div>
+
+
+                <!-- Duplicate Product 1 -->
+
+                <div class="product-card">
+
+                    <div
+                        class="product-image"
+                        style="background-image: url('Images/NVME.png');">
+                    </div>
+
+                    <h3 class="product-title">
+                        VIREX NVMe M.2 SSD
+                    </h3>
+
+                    <p class="product-desc">
+                        Experience lightning-fast boot times and seamless multitasking.
+                        Built for ultimate performance gaming and heavy rendering.
+                    </p>
+
+                </div>
+
+
+                <!-- Duplicate Product 2 -->
+
+                <div class="product-card">
+
+                    <div
+                        class="product-image"
+                        style="background-image: url('Images/SD Card 32.png');">
+                    </div>
+
+                    <h3 class="product-title">
+                        VIREX PRO SDXC
+                    </h3>
+
+                    <p class="product-desc">
+                        Capture life in stunning 4K and 8K without dropping a single frame.
+                        Extreme endurance engineered for cinematographers.
+                    </p>
+
+                </div>
+
+
+                <!-- Duplicate Product 3 -->
+
+                <div class="product-card">
+
+                    <div
+                        class="product-image"
+                        style="background-image: url('Images/Portable SSD.png');">
+                    </div>
+
+                    <h3 class="product-title">
+                        VIREX Portable SSD
+                    </h3>
+
+                    <p class="product-desc">
+                        Take your entire studio on the go.
+                        Rugged, pocket-sized external storage featuring drop protection and blazing speeds.
+                    </p>
+
                 </div>
 
             </div>
+
         </div>
+
     </section>
+
+
+    <!-- =========================================================
+         ABOUT
+    ========================================================= -->
 
     <section id="about">
+
         <div class="about-container">
-            <h2 class="section-title reveal">About <span>VIREX</span></h2>
+
+            <h2 class="section-title reveal">
+
+                About
+                <span>VIREX</span>
+
+            </h2>
+
+
             <div class="about-grid">
+
+
                 <div class="about-text reveal">
-                    <p>At VIREX, we believe that digital boundaries are meant to be broken. Born from a passion for bleeding-edge technology, our memory solutions are engineered to ensure you never have to compromise on speed or reliability[cite: 1].</p>
-                    <p>Whether you are rendering complex 3D environments, capturing cinematic masterpieces, or building the ultimate gaming rig, VIREX hardware operates silently in the background so you can focus on pushing your own limits[cite: 1].</p>
-                    <p><strong>Store More. Access Faster. Live Limitless[cite: 1].</strong></p>
+
+                    <p>
+                        At VIREX, we believe that digital boundaries are meant to be broken.
+                        Born from a passion for bleeding-edge technology, our memory solutions
+                        are engineered to ensure you never have to compromise on speed or reliability.
+                    </p>
+
+                    <p>
+                        Whether you are rendering complex 3D environments,
+                        capturing cinematic masterpieces, or building the ultimate gaming rig,
+                        VIREX hardware operates silently in the background so you can focus on
+                        pushing your own limits.
+                    </p>
+
+                    <p>
+                        <strong>
+                            Store More. Access Faster. Live Limitless.
+                        </strong>
+                    </p>
+
                 </div>
-                <div class="about-visual reveal" data-speed="0.1">
-                    <img src="Images/VIREX LOGO.png" alt="Virex Branding">
+
+
+                <div
+                    class="about-visual reveal"
+                    data-speed="0.1">
+
+                    <img
+                        src="Images/VIREX LOGO.png"
+                        alt="Virex Branding">
+
                 </div>
+
             </div>
+
         </div>
+
     </section>
 
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================= -->
+
     <footer>
-        <img src="Images/Virex Final 02.png" alt="VIREX">
-        <p>&copy; 2026 VIREX Memory Solutions. All rights reserved.</p>
+
+        <img
+            src="Images/Virex Final 02.png"
+            alt="VIREX">
+
+        <p>
+            &copy; 2026 VIREX Memory Solutions.
+            All rights reserved.
+        </p>
+
     </footer>
 
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================= -->
+
     <script>
-        // Preloader Logic
+
+        /* =========================================================
+           PRELOADER
+        ========================================================= */
+
         window.addEventListener("load", () => {
-            const preloader = document.getElementById("preloader");
-            // Set a slight artificial delay so the animation runs for at least 1.5 seconds
+
+            const preloader =
+                document.getElementById("preloader");
+
             setTimeout(() => {
+
                 preloader.classList.add("hidden");
-                // Allow body to scroll again (optional, depending on preference)
+
                 document.body.style.overflowY = "auto";
-            }, 1500); 
+
+            }, 1500);
+
         });
 
-        // Reveal Elements on Scroll
+
+        /* =========================================================
+           SCROLL REVEAL
+        ========================================================= */
+
         function reveal() {
-            const reveals = document.querySelectorAll(".reveal");
+
+            const reveals =
+                document.querySelectorAll(".reveal");
+
             for (let i = 0; i < reveals.length; i++) {
-                const windowHeight = window.innerHeight;
-                const elementTop = reveals[i].getBoundingClientRect().top;
+
+                const windowHeight =
+                    window.innerHeight;
+
+                const elementTop =
+                    reveals[i]
+                        .getBoundingClientRect()
+                        .top;
+
                 const elementVisible = 100;
 
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add("active");
+                if (
+                    elementTop <
+                    windowHeight - elementVisible
+                ) {
+
+                    reveals[i]
+                        .classList
+                        .add("active");
+
                 }
+
             }
+
         }
 
-        // Parallax and Navbar Scroll Effects
+
+        /* =========================================================
+           NAVBAR + PARALLAX
+        ========================================================= */
+
         function handleScrollEffects() {
-            const scrolled = window.scrollY;
-            
-            // Navbar Shrink Effect
-            const navbar = document.getElementById("navbar");
+
+            const scrolled =
+                window.scrollY;
+
+
+            /* Navbar */
+
+            const navbar =
+                document.getElementById("navbar");
+
             if (scrolled > 50) {
-                navbar.classList.add("nav-scrolled");
+
+                navbar.classList.add(
+                    "nav-scrolled"
+                );
+
             } else {
-                navbar.classList.remove("nav-scrolled");
+
+                navbar.classList.remove(
+                    "nav-scrolled"
+                );
+
             }
 
-            // Parallax Elements (Hero text, Background shapes, About visual)
-            document.querySelectorAll('[data-speed]').forEach(el => {
-                const speed = el.getAttribute('data-speed');
-                const yPos = -(scrolled * speed);
-                
-                // Fade out hero text slightly as it scrolls down
-                if(el.classList.contains('hero-content')) {
-                    const opacity = 1 - (scrolled * 0.003);
-                    el.style.transform = `translateY(${-yPos}px)`;
-                    el.style.opacity = opacity > 0 ? opacity : 0;
-                } else {
-                    el.style.transform = `translateY(${yPos}px)`;
-                }
-            });
+
+            /* Parallax */
+
+            document
+                .querySelectorAll("[data-speed]")
+                .forEach(el => {
+
+                    const speed =
+                        parseFloat(
+                            el.getAttribute("data-speed")
+                        );
+
+                    const yPos =
+                        -(scrolled * speed);
+
+
+                    /* Hero fade */
+
+                    if (
+                        el.classList
+                            .contains("hero-content")
+                    ) {
+
+                        const opacity =
+                            1 - (scrolled * 0.003);
+
+                        el.style.transform =
+                            `translateY(${-yPos}px)`;
+
+                        el.style.opacity =
+                            opacity > 0
+                                ? opacity
+                                : 0;
+
+                    } else {
+
+                        el.style.transform =
+                            `translateY(${yPos}px)`;
+
+                    }
+
+                });
+
         }
-        
-        window.addEventListener("scroll", () => {
-            requestAnimationFrame(() => {
-                reveal();
-                handleScrollEffects();
+
+
+        /* =========================================================
+           MOBILE NAVIGATION
+        ========================================================= */
+
+        const navToggle =
+            document.getElementById(
+                "navToggle"
+            );
+
+        const navLinks =
+            document.getElementById(
+                "navLinks"
+            );
+
+        const navbar =
+            document.getElementById(
+                "navbar"
+            );
+
+
+        function closeMobileNav() {
+
+            navLinks.classList.remove(
+                "open"
+            );
+
+            navToggle.classList.remove(
+                "active"
+            );
+
+            navToggle.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+
+
+        navToggle.addEventListener(
+            "click",
+            () => {
+
+                const isOpen =
+                    navLinks.classList.toggle(
+                        "open"
+                    );
+
+                navToggle.classList.toggle(
+                    "active",
+                    isOpen
+                );
+
+                navToggle.setAttribute(
+                    "aria-expanded",
+                    String(isOpen)
+                );
+
+            }
+        );
+
+
+        /* Close menu after selecting item */
+
+        navLinks
+            .querySelectorAll("a")
+            .forEach(link => {
+
+                link.addEventListener(
+                    "click",
+                    closeMobileNav
+                );
+
             });
-        });
-        
-        // Trigger once on load
+
+
+        /* Close menu when clicking outside */
+
+        document.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    !navbar.contains(
+                        event.target
+                    )
+                ) {
+
+                    closeMobileNav();
+
+                }
+
+            }
+        );
+
+
+        /* Close mobile navigation on desktop resize */
+
+        window.addEventListener(
+            "resize",
+            () => {
+
+                if (
+                    window.innerWidth > 800
+                ) {
+
+                    closeMobileNav();
+
+                }
+
+            }
+        );
+
+
+        /* =========================================================
+           SCROLL EVENT
+        ========================================================= */
+
+        let ticking = false;
+
+        window.addEventListener(
+            "scroll",
+            () => {
+
+                if (!ticking) {
+
+                    window.requestAnimationFrame(
+                        () => {
+
+                            reveal();
+
+                            handleScrollEffects();
+
+                            ticking = false;
+
+                        }
+                    );
+
+                    ticking = true;
+
+                }
+
+            },
+            { passive: true }
+        );
+
+
+        /* =========================================================
+           INITIAL LOAD
+        ========================================================= */
+
         reveal();
+
         handleScrollEffects();
+
     </script>
+
 </body>
 </html>
