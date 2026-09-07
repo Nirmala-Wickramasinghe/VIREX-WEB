@@ -5,20 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VIREX | Next-Gen Cybernetic Memory</title>
 
-    <!-- Google Fonts: Chakra Petch for Gaming Vibe, Outfit for Modern Cleanliness -->
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-deep: #030407;
-            --bg-glass: rgba(10, 12, 18, 0.65);
-            --border-neon: rgba(0, 240, 255, 0.25);
-            --neon-cyan: #00f0ff;
-            --neon-red: #ff003c;
-            --text-main: #ffffff;
-            --text-muted: #a0a5b5;
-            --glow-cyan: 0 0 20px rgba(0, 240, 255, 0.4);
-            --glow-red: 0 0 20px rgba(255, 0, 60, 0.4);
+            /* Light Theme Variables */
+            --bg-deep: #f0f2f5;
+            --bg-glass: rgba(255, 255, 255, 0.75);
+            --border-neon: rgba(0, 0, 0, 0.08);
+            --neon-cyan: #0066ff; /* Darker blue for visibility on light backgrounds */
+            --neon-red: #e60036;
+            --text-main: #0a0c12;
+            --text-muted: #5a5f6d;
+            --glow-cyan: 0 5px 15px rgba(0, 102, 255, 0.2);
+            --glow-red: 0 5px 15px rgba(230, 0, 54, 0.2);
         }
 
         * {
@@ -26,10 +26,6 @@
             padding: 0;
             box-sizing: border-box;
             scroll-behavior: smooth;
-        }
-
-        html {
-            overflow-x: hidden;
         }
 
         body {
@@ -46,7 +42,7 @@
         }
 
         /* =========================================================
-           NAVIGATION & LOGO FIX
+           NAVIGATION
         ========================================================= */
         nav {
             position: fixed;
@@ -57,36 +53,22 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(3, 4, 7, 0.85);
+            background: rgba(240, 242, 245, 0.85);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-neon);
             z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        /* Logo Visibility Wrapper */
-        .logo-wrapper {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 8px 18px;
-            border-radius: 6px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
-            border: 1px solid rgba(0, 240, 255, 0.5);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .logo-wrapper:hover {
-            transform: scale(1.05);
-            box-shadow: var(--glow-cyan);
         }
 
         .logo img {
-            height: 32px;
+            height: 35px;
             width: auto;
             display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .logo img:hover {
+            transform: scale(1.05);
         }
 
         .nav-links {
@@ -106,10 +88,8 @@
 
         .nav-links a:hover {
             color: var(--neon-cyan);
-            text-shadow: var(--glow-cyan);
         }
 
-        /* Mobile Menu Button */
         .nav-toggle {
             display: none;
             background: transparent;
@@ -123,12 +103,12 @@
         .nav-toggle span {
             width: 30px;
             height: 2px;
-            background: var(--neon-cyan);
+            background: var(--text-main);
             transition: 0.3s ease;
         }
 
         /* =========================================================
-           HERO & VIDEO BACKGROUND
+           HERO SECTION
         ========================================================= */
         #home {
             min-height: 100vh;
@@ -153,14 +133,13 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.4; /* Cinematic darkening */
         }
 
+        /* Heavy white overlay to ensure text is readable over video */
         .video-overlay {
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at center, transparent 0%, var(--bg-deep) 100%),
-                        linear-gradient(to bottom, rgba(3,4,7,0.4), var(--bg-deep));
+            background: rgba(240, 242, 245, 0.88);
         }
 
         .hero-content {
@@ -174,19 +153,18 @@
             letter-spacing: 2px;
             line-height: 1.1;
             margin-bottom: 20px;
-            text-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            color: var(--text-main);
         }
 
         .hero-title span {
             color: var(--neon-red);
-            text-shadow: var(--glow-red);
         }
 
         .hero-subtitle {
             font-size: clamp(1rem, 2vw, 1.2rem);
             color: var(--text-muted);
             margin-bottom: 40px;
-            font-weight: 300;
+            font-weight: 400;
             letter-spacing: 1px;
         }
 
@@ -201,13 +179,12 @@
             text-decoration: none;
             clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
             transition: all 0.3s ease;
-            box-shadow: 0 10px 20px rgba(255, 0, 60, 0.2);
+            box-shadow: var(--glow-red);
         }
 
         .btn-primary:hover {
             transform: translateY(-3px);
             background: #ff1a53;
-            box-shadow: var(--glow-red);
         }
 
         /* =========================================================
@@ -232,33 +209,60 @@
 
         .section-title span {
             color: var(--neon-cyan);
-            text-shadow: var(--glow-cyan);
         }
 
         /* =========================================================
-           RESPONSIVE PRODUCT CAROUSEL (NATIVE SCROLL)
+           FIXED SLIDER (BUTTONS + SCROLL)
         ========================================================= */
+        .carousel-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #fff;
+            border: 1px solid var(--border-neon);
+            color: var(--text-main);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .slider-btn:hover {
+            background: var(--neon-cyan);
+            color: #fff;
+            border-color: var(--neon-cyan);
+            box-shadow: var(--glow-cyan);
+        }
+
+        .slider-btn.left { left: -15px; }
+        .slider-btn.right { right: -15px; }
+
         .carousel-track {
             display: flex;
             gap: 25px;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
-            padding-bottom: 30px;
-            scrollbar-width: thin;
-            scrollbar-color: var(--neon-cyan) rgba(255,255,255,0.05);
+            padding: 20px 10px 40px; /* Padding for hover shadows */
+            scrollbar-width: none; /* Hide scrollbar for cleaner look */
             -webkit-overflow-scrolling: touch;
+            width: 100%;
         }
 
         .carousel-track::-webkit-scrollbar {
-            height: 6px;
-        }
-        .carousel-track::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
-        }
-        .carousel-track::-webkit-scrollbar-thumb {
-            background: var(--neon-cyan);
-            border-radius: 10px;
+            display: none;
         }
 
         .product-card {
@@ -273,13 +277,13 @@
             flex-direction: column;
             clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
             transition: all 0.4s ease;
-            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
         }
 
         .product-card:hover {
             transform: translateY(-10px);
             border-color: var(--neon-cyan);
-            box-shadow: inset 0 0 20px rgba(0, 240, 255, 0.1), 0 15px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
         }
 
         .product-image-container {
@@ -295,7 +299,7 @@
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
-            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.6));
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15));
             transition: transform 0.4s ease;
         }
 
@@ -312,7 +316,7 @@
             color: var(--neon-cyan);
             font-family: 'Chakra Petch', sans-serif;
             font-size: 0.9rem;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 12px;
             letter-spacing: 1px;
         }
@@ -324,7 +328,7 @@
         }
 
         /* =========================================================
-           RESPONSIVE GRID FOR SPECS/ABOUT
+           SPECS & ABOUT GRID
         ========================================================= */
         .specs-grid, .about-grid {
             display: grid;
@@ -335,16 +339,18 @@
 
         .spec-card {
             background: var(--bg-glass);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-neon);
             padding: 30px;
             border-radius: 12px;
             text-align: center;
             transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
         }
 
         .spec-card:hover {
             border-color: var(--neon-red);
-            box-shadow: 0 10px 30px rgba(255, 0, 60, 0.15);
+            box-shadow: var(--glow-red);
+            transform: translateY(-5px);
         }
 
         .spec-icon {
@@ -364,11 +370,6 @@
             display: flex;
             justify-content: center;
         }
-
-        .about-visual .logo-wrapper {
-            padding: 20px 40px;
-            background: rgba(255,255,255,0.95);
-        }
         
         .about-visual img {
             max-width: 250px;
@@ -380,13 +381,13 @@
         footer {
             text-align: center;
             padding: 50px 5%;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            border-top: 1px solid var(--border-neon);
             margin-top: 50px;
         }
 
-        footer .logo-wrapper {
+        footer img {
             margin-bottom: 20px;
-            padding: 5px 15px;
+            height: 24px;
         }
 
         footer p {
@@ -399,7 +400,7 @@
         ========================================================= */
         @media (max-width: 900px) {
             .product-card {
-                flex: 0 0 300px; /* Slightly smaller cards on tablet */
+                flex: 0 0 300px;
             }
         }
 
@@ -413,7 +414,7 @@
                 top: 100%;
                 left: 0;
                 width: 100%;
-                background: rgba(3, 4, 7, 0.98);
+                background: rgba(240, 242, 245, 0.98);
                 flex-direction: column;
                 align-items: center;
                 padding: 30px 0;
@@ -431,14 +432,17 @@
             }
 
             .product-card {
-                flex: 0 0 85vw; /* Fills most of the screen on phones */
-                scroll-snap-align: center; /* Centers the card on scroll */
+                flex: 0 0 85vw;
+                scroll-snap-align: center;
             }
 
+            .slider-btn {
+                display: none; /* Hide buttons on mobile where touch-swipe works perfectly */
+            }
+            
             .carousel-track {
                 padding-left: 5vw;
                 padding-right: 5vw;
-                gap: 15px;
             }
         }
     </style>
@@ -449,8 +453,7 @@
     <!-- NAVIGATION -->
     <nav id="navbar">
         <div class="logo">
-            <a href="#home" class="logo-wrapper">
-                <!-- Logo inside a high-contrast protective wrapper -->
+            <a href="#home">
                 <img src="Images/VIREX LOGO.png" alt="VIREX">
             </a>
         </div>
@@ -469,7 +472,7 @@
         </button>
     </nav>
 
-    <!-- HERO SECTION (WITH VIDEO BACKGROUND) -->
+    <!-- HERO SECTION -->
     <section id="home" style="padding-top: 0; padding-bottom: 0; max-width: 100%; margin: 0;">
         <div class="video-container">
             <video class="bg-video" autoplay loop muted playsinline poster="Images/NVME.png">
@@ -485,51 +488,57 @@
         </div>
     </section>
 
-    <!-- PRODUCTS (FLUID SCROLL CAROUSEL) -->
+    <!-- PRODUCTS (FIXED SLIDER) -->
     <section id="products">
         <div class="section-header">
             <h2 class="section-title">FLAGSHIP <span>ARSENAL</span></h2>
         </div>
 
-        <!-- CSS Native Scroll Snapping - No Javascript Required -->
-        <div class="carousel-track">
+        <div class="carousel-wrapper">
+            <!-- New Navigation Buttons for Desktop Users -->
+            <button class="slider-btn left" id="slideLeft">❮</button>
             
-            <div class="product-card">
-                <div class="product-image-container">
-                    <img src="Images/NVME.png" alt="VIREX NVMe M.2">
+            <div class="carousel-track" id="sliderTrack">
+                
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="Images/NVME.png" alt="VIREX NVMe M.2">
+                    </div>
+                    <h3 class="product-title">VIREX NVMe Gen 5</h3>
+                    <div class="product-specs">READ: 14,000 MB/s | PCIE 5.0</div>
+                    <p class="product-desc">Eradicate load screens. Engineered with grapheme thermal shielding to sustain peak performance during intense gaming sessions.</p>
                 </div>
-                <h3 class="product-title">VIREX NVMe Gen 5</h3>
-                <div class="product-specs">READ: 14,000 MB/s | PCIE 5.0</div>
-                <p class="product-desc">Eradicate load screens. Engineered with grapheme thermal shielding to sustain peak performance during intense gaming sessions.</p>
+
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="Images/Virex Ram.png" alt="VIREX DDR5 RAM">
+                    </div>
+                    <h3 class="product-title">VIREX DDR5 RAM</h3>
+                    <div class="product-specs">7200 MHz | CL32 TIMING</div>
+                    <p class="product-desc">Push your rig past the redline. Features custom XMP 3.0 profiles and addressable RGB zoning for maximum aesthetic control.</p>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="Images/Portable SSD.png" alt="VIREX Portable SSD">
+                    </div>
+                    <h3 class="product-title">VIREX RUGGED SSD</h3>
+                    <div class="product-specs">USB 3.2 2x2 | DROP RESISTANT</div>
+                    <p class="product-desc">Take your game library anywhere. Military-grade shock protection paired with blistering fast external transfer speeds.</p>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="Images/SD Card.png" alt="VIREX PRO SD">
+                    </div>
+                    <h3 class="product-title">VIREX PRO SDXC</h3>
+                    <div class="product-specs">V90 CLASS | 8K READY</div>
+                    <p class="product-desc">Zero dropped frames. Built for content creators demanding sustained write speeds for high-bitrate gameplay recording.</p>
+                </div>
+
             </div>
 
-            <div class="product-card">
-                <div class="product-image-container">
-                    <img src="Images/Virex Ram.png" alt="VIREX DDR5 RAM">
-                </div>
-                <h3 class="product-title">VIREX DDR5 RAM</h3>
-                <div class="product-specs">7200 MHz | CL32 TIMING</div>
-                <p class="product-desc">Push your rig past the redline. Features custom XMP 3.0 profiles and addressable RGB zoning for maximum aesthetic control.</p>
-            </div>
-
-            <div class="product-card">
-                <div class="product-image-container">
-                    <img src="Images/Portable SSD.png" alt="VIREX Portable SSD">
-                </div>
-                <h3 class="product-title">VIREX RUGGED SSD</h3>
-                <div class="product-specs">USB 3.2 2x2 | DROP RESISTANT</div>
-                <p class="product-desc">Take your game library anywhere. Military-grade shock protection paired with blistering fast external transfer speeds.</p>
-            </div>
-
-            <div class="product-card">
-                <div class="product-image-container">
-                    <img src="Images/SD Card.png" alt="VIREX PRO SD">
-                </div>
-                <h3 class="product-title">VIREX PRO SDXC</h3>
-                <div class="product-specs">V90 CLASS | 8K READY</div>
-                <p class="product-desc">Zero dropped frames. Built for content creators demanding sustained write speeds for high-bitrate gameplay recording.</p>
-            </div>
-
+            <button class="slider-btn right" id="slideRight">❯</button>
         </div>
     </section>
 
@@ -567,18 +576,14 @@
                 <p>Whether you are building a custom liquid-cooled rig or capturing professional gameplay, our hardware runs silently in the background—so you can focus on the win.</p>
             </div>
             <div class="about-visual">
-                <div class="logo-wrapper" style="box-shadow: var(--glow-cyan);">
-                    <img src="Images/VIREX LOGO.png" alt="VIREX">
-                </div>
+                <img src="Images/VIREX LOGO.png" alt="VIREX">
             </div>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer>
-        <div class="logo-wrapper">
-            <img src="Images/VIREX LOGO.png" alt="VIREX" style="height: 24px;">
-        </div>
+        <img src="Images/VIREX LOGO.png" alt="VIREX">
         <p>&copy; 2026 VIREX Memory Solutions. Built for the Next Generation.</p>
     </footer>
 
@@ -592,10 +597,35 @@
             navLinks.classList.toggle("open");
         });
 
-        // Close mobile menu when a link is clicked
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
                 navLinks.classList.remove('open');
+            });
+        });
+
+        // Fixed Product Slider Controls
+        const sliderTrack = document.getElementById("sliderTrack");
+        const slideLeft = document.getElementById("slideLeft");
+        const slideRight = document.getElementById("slideRight");
+
+        // Calculate exact scroll amount based on card width + gap
+        const getScrollAmount = () => {
+            const card = sliderTrack.querySelector('.product-card');
+            // Card width (350px) + Gap (25px)
+            return card.offsetWidth + 25; 
+        };
+
+        slideLeft.addEventListener("click", () => {
+            sliderTrack.scrollBy({
+                left: -getScrollAmount(),
+                behavior: "smooth"
+            });
+        });
+
+        slideRight.addEventListener("click", () => {
+            sliderTrack.scrollBy({
+                left: getScrollAmount(),
+                behavior: "smooth"
             });
         });
     </script>
