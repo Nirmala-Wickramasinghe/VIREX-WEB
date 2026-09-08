@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIREX | Next-Gen Cybernetic Memory</title>
+    <title>VIREX | Next-Gen Cybernetic Memory Solutions</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            /* Light Theme Variables */
-            --bg-deep: #f0f2f5;
-            --bg-glass: rgba(255, 255, 255, 0.75);
-            --border-neon: rgba(0, 0, 0, 0.08);
-            --neon-cyan: #0066ff; /* Darker blue for visibility on light backgrounds */
-            --neon-red: #e60036;
-            --text-main: #0a0c12;
-            --text-muted: #5a5f6d;
-            --glow-cyan: 0 5px 15px rgba(0, 102, 255, 0.2);
-            --glow-red: 0 5px 15px rgba(230, 0, 54, 0.2);
+            --bg-dark: #06070a;
+            --panel-bg: rgba(14, 17, 24, 0.75);
+            --panel-border: rgba(0, 240, 255, 0.18);
+            --neon-red: #ff0055;
+            --neon-cyan: #00f0ff;
+            --neon-purple: #8b00ff;
+            --text-main: #f0f6fc;
+            --text-muted: #8b949e;
+            --glass-bg: rgba(8, 10, 15, 0.85);
+            --glow-cyan: 0 0 20px rgba(0, 240, 255, 0.35);
+            --glow-red: 0 0 20px rgba(255, 0, 85, 0.4);
         }
 
         * {
@@ -28,17 +30,84 @@
             scroll-behavior: smooth;
         }
 
+        html {
+            overflow-x: hidden;
+            scroll-padding-top: 80px;
+        }
+
         body {
-            background-color: var(--bg-deep);
+            background-color: var(--bg-dark);
             color: var(--text-main);
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Rajdhani', sans-serif;
             overflow-x: hidden;
             position: relative;
         }
 
-        h1, h2, h3, .btn-primary {
-            font-family: 'Chakra Petch', sans-serif;
-            text-transform: uppercase;
+        /* Cyberpunk Grid Background Overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* =========================================================
+           PRELOADER
+        ========================================================= */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-dark);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        #preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .cyber-loader {
+            width: 80px;
+            height: 80px;
+            border: 3px solid transparent;
+            border-top-color: var(--neon-cyan);
+            border-bottom-color: var(--neon-red);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            position: relative;
+        }
+
+        .cyber-loader::before {
+            content: '';
+            position: absolute;
+            inset: 8px;
+            border: 3px solid transparent;
+            border-left-color: var(--neon-purple);
+            border-radius: 50%;
+            animation: spin 0.5s linear infinite reverse;
+        }
+
+        .loading-text {
+            margin-top: 25px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 5px;
+            color: var(--neon-cyan);
+            text-shadow: var(--glow-cyan);
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
         }
 
         /* =========================================================
@@ -49,21 +118,28 @@
             top: 0;
             left: 0;
             width: 100%;
-            padding: 15px 5%;
+            padding: 18px 6%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(240, 242, 245, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-neon);
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--panel-border);
             z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav.nav-scrolled {
+            padding: 12px 6%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
 
         .logo img {
-            height: 35px;
+            height: 38px;
             width: auto;
             display: block;
+            filter: drop-shadow(0 0 8px rgba(0,240,255,0.6));
             transition: transform 0.3s ease;
         }
 
@@ -73,42 +149,47 @@
 
         .nav-links {
             display: flex;
+            align-items: center;
             gap: 40px;
         }
 
         .nav-links a {
             color: var(--text-main);
             text-decoration: none;
-            font-family: 'Chakra Petch', sans-serif;
-            font-size: 0.9rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
             font-weight: 600;
             letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
             transition: color 0.3s;
         }
 
         .nav-links a:hover {
             color: var(--neon-cyan);
+            text-shadow: var(--glow-cyan);
         }
 
         .nav-toggle {
             display: none;
             background: transparent;
-            border: none;
+            border: 1px solid var(--panel-border);
+            padding: 8px;
+            border-radius: 4px;
             cursor: pointer;
             flex-direction: column;
-            gap: 6px;
-            z-index: 1001;
+            gap: 5px;
         }
 
         .nav-toggle span {
-            width: 30px;
+            width: 22px;
             height: 2px;
-            background: var(--text-main);
-            transition: 0.3s ease;
+            background: var(--neon-cyan);
+            transition: all 0.3s ease;
         }
 
         /* =========================================================
-           HERO SECTION
+           HERO WITH BACKGROUND VIDEO
         ========================================================= */
         #home {
             min-height: 100vh;
@@ -116,8 +197,8 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            padding: 120px 5% 60px;
-            text-align: center;
+            padding: 120px 6% 80px;
+            overflow: hidden;
         }
 
         .video-container {
@@ -125,7 +206,7 @@
             inset: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            z-index: 0;
             overflow: hidden;
         }
 
@@ -133,192 +214,248 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            filter: brightness(0.35) contrast(1.2);
         }
 
-        /* Heavy white overlay to ensure text is readable over video */
         .video-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(240, 242, 245, 0.88);
+            background: radial-gradient(circle at center, rgba(6,7,10,0.4) 0%, rgba(6,7,10,0.95) 100%),
+                        linear-gradient(to bottom, rgba(6,7,10,0.7), transparent 30%, transparent 70%, var(--bg-dark));
+            z-index: 1;
         }
 
         .hero-content {
-            max-width: 900px;
+            position: relative;
             z-index: 2;
+            max-width: 900px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            box-shadow: var(--glow-cyan);
         }
 
         .hero-title {
-            font-size: clamp(2.5rem, 7vw, 5.5rem);
-            font-weight: 700;
-            letter-spacing: 2px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4.2rem;
+            font-weight: 900;
+            letter-spacing: 4px;
             line-height: 1.1;
+            text-transform: uppercase;
             margin-bottom: 20px;
-            color: var(--text-main);
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, var(--neon-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .hero-title span {
             color: var(--neon-red);
+            -webkit-text-fill-color: var(--neon-red);
+            text-shadow: var(--glow-red);
         }
 
         .hero-subtitle {
-            font-size: clamp(1rem, 2vw, 1.2rem);
+            font-size: 1.25rem;
             color: var(--text-muted);
+            letter-spacing: 2px;
             margin-bottom: 40px;
-            font-weight: 400;
-            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
         .btn-primary {
-            display: inline-block;
-            padding: 16px 45px;
-            background: var(--neon-red);
-            color: #fff;
-            font-size: 1rem;
+            padding: 16px 40px;
+            background: linear-gradient(90deg, var(--neon-red), #b3003b);
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
             font-weight: 700;
             letter-spacing: 2px;
             text-decoration: none;
-            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+            text-transform: uppercase;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
             transition: all 0.3s ease;
             box-shadow: var(--glow-red);
         }
 
         .btn-primary:hover {
+            transform: translateY(-3px) scale(1.03);
+            filter: brightness(1.2);
+        }
+
+        .btn-secondary {
+            padding: 16px 40px;
+            background: transparent;
+            color: var(--neon-cyan);
+            border: 1px solid var(--neon-cyan);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-decoration: none;
+            text-transform: uppercase;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+            transition: all 0.3s ease;
+            box-shadow: var(--glow-cyan);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 240, 255, 0.15);
             transform: translateY(-3px);
-            background: #ff1a53;
         }
 
         /* =========================================================
            GENERAL SECTIONS
         ========================================================= */
         section {
-            padding: 100px 5%;
-            max-width: 1400px;
-            margin: 0 auto;
+            padding: 120px 6%;
+            position: relative;
+            z-index: 2;
         }
 
         .section-header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 70px;
         }
 
         .section-title {
-            font-size: clamp(2rem, 5vw, 3rem);
-            letter-spacing: 2px;
-            margin-bottom: 10px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.6rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
         }
 
         .section-title span {
             color: var(--neon-cyan);
+            text-shadow: var(--glow-cyan);
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
         /* =========================================================
-           FIXED SLIDER (BUTTONS + SCROLL)
+           PRODUCT CAROUSEL (FIXED DESKTOP IMAGES)
         ========================================================= */
         .carousel-wrapper {
+            width: 100vw;
             position: relative;
-            display: flex;
-            align-items: center;
+            left: 50%;
+            margin-left: -50vw;
+            overflow: hidden;
+            padding: 30px 0;
         }
-
-        .slider-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: #fff;
-            border: 1px solid var(--border-neon);
-            color: var(--text-main);
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 10;
-            font-size: 1.2rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .slider-btn:hover {
-            background: var(--neon-cyan);
-            color: #fff;
-            border-color: var(--neon-cyan);
-            box-shadow: var(--glow-cyan);
-        }
-
-        .slider-btn.left { left: -15px; }
-        .slider-btn.right { right: -15px; }
 
         .carousel-track {
             display: flex;
-            gap: 25px;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            padding: 20px 10px 40px; /* Padding for hover shadows */
-            scrollbar-width: none; /* Hide scrollbar for cleaner look */
-            -webkit-overflow-scrolling: touch;
-            width: 100%;
+            width: max-content;
+            animation: scroll 35s linear infinite;
+            gap: 30px;
+            padding: 0 20px;
         }
 
-        .carousel-track::-webkit-scrollbar {
-            display: none;
+        .carousel-wrapper:hover .carousel-track {
+            animation-play-state: paused;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-420px * 4 - 30px * 4)); }
         }
 
         .product-card {
-            flex: 0 0 350px;
-            scroll-snap-align: start;
-            background: var(--bg-glass);
-            border: 1px solid var(--border-neon);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            padding: 30px 25px;
+            width: 420px;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 12px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
             display: flex;
             flex-direction: column;
-            clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
-            transition: all 0.4s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
         }
 
         .product-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-12px);
             border-color: var(--neon-cyan);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+            box-shadow: 0 15px 40px rgba(0, 240, 255, 0.2);
+        }
+
+        .product-tag {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 0, 85, 0.2);
+            border: 1px solid var(--neon-red);
+            color: var(--neon-red);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.65rem;
+            padding: 4px 10px;
+            border-radius: 4px;
+            letter-spacing: 1px;
         }
 
         .product-image-container {
             width: 100%;
-            height: 200px;
+            height: 240px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 20px;
+            background: radial-gradient(circle, rgba(0,240,255,0.08) 0%, transparent 70%);
+            border-radius: 8px;
+            margin-bottom: 25px;
+            padding: 15px;
         }
 
         .product-image-container img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
-            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15));
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.8));
             transition: transform 0.4s ease;
         }
 
         .product-card:hover .product-image-container img {
-            transform: scale(1.1);
+            transform: scale(1.08) rotate(2deg);
         }
 
         .product-title {
-            font-size: 1.4rem;
-            margin-bottom: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #fff;
         }
 
         .product-specs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 0.85rem;
             color: var(--neon-cyan);
-            font-family: 'Chakra Petch', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-            letter-spacing: 1px;
+            font-weight: 600;
         }
 
         .product-desc {
@@ -328,241 +465,422 @@
         }
 
         /* =========================================================
-           SPECS & ABOUT GRID
+           FEATURE SPECS GRID (NEW SECTION)
         ========================================================= */
-        .specs-grid, .about-grid {
+        .specs-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            align-items: center;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .spec-card {
-            background: var(--bg-glass);
-            border: 1px solid var(--border-neon);
-            padding: 30px;
-            border-radius: 12px;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 10px;
+            padding: 35px 25px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+
+        .spec-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-red));
         }
 
         .spec-card:hover {
-            border-color: var(--neon-red);
-            box-shadow: var(--glow-red);
             transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-color: rgba(0,240,255,0.4);
         }
 
         .spec-icon {
             font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: var(--neon-red);
+            margin-bottom: 20px;
+            color: var(--neon-cyan);
+            text-shadow: var(--glow-cyan);
+        }
+
+        .spec-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.15rem;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+
+        .spec-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* =========================================================
+           BENCHMARK PERFORMANCE (NEW SECTION)
+        ========================================================= */
+        .benchmark-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+        }
+
+        .bar-group {
+            margin-bottom: 30px;
+        }
+
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .bar-bg {
+            width: 100%;
+            height: 14px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 7px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-red));
+            border-radius: 7px;
+            width: 0%;
+            transition: width 1.5s cubic-bezier(0.1, 0.42, 0.85, 1);
+            box-shadow: var(--glow-cyan);
+        }
+
+        /* =========================================================
+           ABOUT SECTION
+        ========================================================= */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .about-text p {
+            color: var(--text-muted);
             font-size: 1.1rem;
             line-height: 1.8;
-            color: var(--text-muted);
             margin-bottom: 20px;
         }
 
+        .about-text strong {
+            color: var(--neon-cyan);
+        }
+
         .about-visual {
+            position: relative;
+            height: 400px;
             display: flex;
             justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle, rgba(0,240,255,0.1) 0%, transparent 70%);
         }
-        
+
         .about-visual img {
-            max-width: 250px;
+            max-width: 80%;
+            filter: drop-shadow(0 0 25px rgba(0, 240, 255, 0.4));
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
         }
 
         /* =========================================================
            FOOTER
         ========================================================= */
         footer {
+            background: #030406;
+            border-top: 1px solid var(--panel-border);
+            padding: 60px 6% 30px;
             text-align: center;
-            padding: 50px 5%;
-            border-top: 1px solid var(--border-neon);
-            margin-top: 50px;
+            position: relative;
+            z-index: 2;
         }
 
         footer img {
+            height: 40px;
             margin-bottom: 20px;
-            height: 24px;
+            filter: drop-shadow(0 0 10px rgba(0,240,255,0.5));
         }
 
         footer p {
             color: var(--text-muted);
             font-size: 0.9rem;
+            margin-top: 15px;
         }
 
         /* =========================================================
-           MOBILE RESPONSIVENESS
+           SCROLL REVEAL
         ========================================================= */
-        @media (max-width: 900px) {
-            .product-card {
-                flex: 0 0 300px;
-            }
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* =========================================================
+           RESPONSIVE MEDIA QUERIES
+        ========================================================= */
+        @media (max-width: 992px) {
+            .hero-title { font-size: 3rem; }
+            .about-grid { grid-template-columns: 1fr; gap: 40px; }
+            .product-card { width: 340px; }
         }
 
         @media (max-width: 768px) {
-            .nav-toggle {
-                display: flex;
-            }
-
+            .nav-toggle { display: flex; }
             .nav-links {
                 position: absolute;
                 top: 100%;
                 left: 0;
                 width: 100%;
-                background: rgba(240, 242, 245, 0.98);
+                background: var(--glass-bg);
                 flex-direction: column;
-                align-items: center;
-                padding: 30px 0;
-                gap: 25px;
-                border-bottom: 1px solid var(--border-neon);
-                transform: translateY(-150%);
-                opacity: 0;
-                transition: all 0.4s ease;
-                z-index: -1;
+                padding: 25px 0;
+                gap: 20px;
+                border-bottom: 1px solid var(--panel-border);
+                display: none;
             }
-
-            .nav-links.open {
-                transform: translateY(0);
-                opacity: 1;
-            }
-
-            .product-card {
-                flex: 0 0 85vw;
-                scroll-snap-align: center;
-            }
-
-            .slider-btn {
-                display: none; /* Hide buttons on mobile where touch-swipe works perfectly */
-            }
-            
-            .carousel-track {
-                padding-left: 5vw;
-                padding-right: 5vw;
-            }
+            .nav-links.open { display: flex; }
+            .hero-title { font-size: 2.2rem; }
+            .btn-group { flex-direction: column; width: 100%; }
+            .btn-primary, .btn-secondary { width: 100%; text-align: center; clip-path: none; border-radius: 4px; }
+            .product-card { width: 300px; }
         }
     </style>
 </head>
 
 <body>
 
+    <!-- PRELOADER -->
+    <div id="preloader">
+        <div class="cyber-loader"></div>
+        <div class="loading-text">INITIALIZING VIREX SYSTEM...</div>
+    </div>
+
     <!-- NAVIGATION -->
     <nav id="navbar">
         <div class="logo">
             <a href="#home">
-                <img src="Images/VIREX LOGO.png" alt="VIREX">
+                <img src="Images/VIREX LOGO.png" alt="VIREX Memory">
             </a>
         </div>
-        
         <div class="nav-links" id="navLinks">
-            <a href="#home">HOME</a>
-            <a href="#products">HARDWARE</a>
-            <a href="#specs">SPECS</a>
-            <a href="#about">ABOUT</a>
+            <a href="#home">Home</a>
+            <a href="#products">Hardware</a>
+            <a href="#specs">Engineering</a>
+            <a href="#benchmarks">Benchmarks</a>
+            <a href="#about">About</a>
         </div>
-        
-        <button class="nav-toggle" id="navToggle" aria-label="Toggle Menu">
-            <span></span>
-            <span></span>
-            <span></span>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+            <span></span><span></span><span></span>
         </button>
     </nav>
 
-    <!-- HERO SECTION -->
-    <section id="home" style="padding-top: 0; padding-bottom: 0; max-width: 100%; margin: 0;">
+    <!-- HERO SECTION WITH VIDEO BACKGROUND -->
+    <section id="home">
         <div class="video-container">
-            <video class="bg-video" autoplay loop muted playsinline poster="Images/NVME.png">
+            <!-- Replace the video source below with your actual local MP4 file path -->
+            <video class="bg-video" autoplay loop muted playsinline poster="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1920&q=80">
                 <source src="Videos/hero-bg.mp4" type="video/mp4">
             </video>
             <div class="video-overlay"></div>
         </div>
 
-        <div class="hero-content">
-            <h1 class="hero-title">UNLEASH YOUR <span>POTENTIAL</span></h1>
-            <p class="hero-subtitle">Ultra-Low Latency • Maximum Bandwidth • Built for Gamers</p>
-            <a href="#products" class="btn-primary">EXPLORE HARDWARE</a>
+        <div class="hero-content reveal">
+            <div class="hero-badge">PCIe Gen 5.0 Architecture Ready</div>
+            <h1 class="hero-title">OVERCLOCK YOUR <span>REALITY</span></h1>
+            <p class="hero-subtitle">Ultra-Low Latency | Extreme Bandwidth | Industrial-Grade Storage</p>
+            <div class="btn-group">
+                <a href="#products" class="btn-primary">Explore Products</a>
+                <a href="#benchmarks" class="btn-secondary">View Benchmarks</a>
+            </div>
         </div>
     </section>
 
-    <!-- PRODUCTS (FIXED SLIDER) -->
+    <!-- PRODUCTS CAROUSEL SECTION -->
     <section id="products">
-        <div class="section-header">
-            <h2 class="section-title">FLAGSHIP <span>ARSENAL</span></h2>
+        <div class="section-header reveal">
+            <h2 class="section-title">FLAGSHIP <span>HARDWARE</span></h2>
+            <p class="section-subtitle">Engineered for competitive gaming, 3D rendering, and continuous high workload</p>
         </div>
 
-        <div class="carousel-wrapper">
-            <!-- New Navigation Buttons for Desktop Users -->
-            <button class="slider-btn left" id="slideLeft">❮</button>
-            
-            <div class="carousel-track" id="sliderTrack">
+        <div class="carousel-wrapper reveal">
+            <div class="carousel-track">
                 
+                <!-- Product 1 -->
                 <div class="product-card">
+                    <span class="product-tag">FLAGSHIP</span>
                     <div class="product-image-container">
-                        <img src="Images/NVME.png" alt="VIREX NVMe M.2">
+                        <img src="Images/NVME.png" alt="VIREX NVMe M.2 SSD">
                     </div>
-                    <h3 class="product-title">VIREX NVMe Gen 5</h3>
-                    <div class="product-specs">READ: 14,000 MB/s | PCIE 5.0</div>
-                    <p class="product-desc">Eradicate load screens. Engineered with grapheme thermal shielding to sustain peak performance during intense gaming sessions.</p>
+                    <h3 class="product-title">VIREX NVMe M.2 SSD</h3>
+                    <div class="product-specs">
+                        <span>PCIe 5.0 x4</span> | <span>7500 MB/s</span>
+                    </div>
+                    <p class="product-desc">Eliminate load screens with blistering sequential read speed and custom dynamic thermal throttling prevention.</p>
                 </div>
 
+                <!-- Product 2 -->
                 <div class="product-card">
+                    <span class="product-tag">EXTREME</span>
                     <div class="product-image-container">
                         <img src="Images/Virex Ram.png" alt="VIREX DDR5 RAM">
                     </div>
                     <h3 class="product-title">VIREX DDR5 RAM</h3>
-                    <div class="product-specs">7200 MHz | CL32 TIMING</div>
-                    <p class="product-desc">Push your rig past the redline. Features custom XMP 3.0 profiles and addressable RGB zoning for maximum aesthetic control.</p>
+                    <div class="product-specs">
+                        <span>7200 MHz</span> | <span>CL32 RGB</span>
+                    </div>
+                    <p class="product-desc">Unlocked XMP 3.0 profile integration featuring custom matte black heat spreaders and addressable RGB lighting zones.</p>
                 </div>
 
+                <!-- Product 3 -->
                 <div class="product-card">
+                    <span class="product-tag">CINEMA PRO</span>
+                    <div class="product-image-container">
+                        <img src="Images/SD Card.png" alt="VIREX PRO SDXC">
+                    </div>
+                    <h3 class="product-title">VIREX PRO SDXC</h3>
+                    <div class="product-specs">
+                        <span>V90 Speed</span> | <span>8K RAW Ready</span>
+                    </div>
+                    <p class="product-desc">Uncompromised write speeds designed for continuous 8K video recording and high-burst RAW photo captures.</p>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card">
+                    <span class="product-tag">RUGGED</span>
                     <div class="product-image-container">
                         <img src="Images/Portable SSD.png" alt="VIREX Portable SSD">
                     </div>
-                    <h3 class="product-title">VIREX RUGGED SSD</h3>
-                    <div class="product-specs">USB 3.2 2x2 | DROP RESISTANT</div>
-                    <p class="product-desc">Take your game library anywhere. Military-grade shock protection paired with blistering fast external transfer speeds.</p>
+                    <h3 class="product-title">VIREX Portable SSD</h3>
+                    <div class="product-specs">
+                        <span>USB 3.2 Gen 2x2</span> | <span>2000 MB/s</span>
+                    </div>
+                    <p class="product-desc">Military-grade shockproof enclosure with hardware-based AES 256-bit encryption for mobile data security.</p>
+                </div>
+
+                <!-- Duplicates for seamless looping -->
+                <div class="product-card">
+                    <span class="product-tag">FLAGSHIP</span>
+                    <div class="product-image-container">
+                        <img src="Images/NVME.png" alt="VIREX NVMe M.2 SSD">
+                    </div>
+                    <h3 class="product-title">VIREX NVMe M.2 SSD</h3>
+                    <div class="product-specs">
+                        <span>PCIe 5.0 x4</span> | <span>7500 MB/s</span>
+                    </div>
+                    <p class="product-desc">Eliminate load screens with blistering sequential read speed and custom dynamic thermal throttling prevention.</p>
                 </div>
 
                 <div class="product-card">
+                    <span class="product-tag">EXTREME</span>
                     <div class="product-image-container">
-                        <img src="Images/SD Card.png" alt="VIREX PRO SD">
+                        <img src="Images/Virex Ram.png" alt="VIREX DDR5 RAM">
                     </div>
-                    <h3 class="product-title">VIREX PRO SDXC</h3>
-                    <div class="product-specs">V90 CLASS | 8K READY</div>
-                    <p class="product-desc">Zero dropped frames. Built for content creators demanding sustained write speeds for high-bitrate gameplay recording.</p>
+                    <h3 class="product-title">VIREX DDR5 RAM</h3>
+                    <div class="product-specs">
+                        <span>7200 MHz</span> | <span>CL32 RGB</span>
+                    </div>
+                    <p class="product-desc">Unlocked XMP 3.0 profile integration featuring custom matte black heat spreaders and addressable RGB lighting zones.</p>
                 </div>
 
             </div>
-
-            <button class="slider-btn right" id="slideRight">❯</button>
         </div>
     </section>
 
-    <!-- ENGINEERING SPECS -->
+    <!-- SPECS & ENGINEERING GRID -->
     <section id="specs">
-        <div class="section-header">
-            <h2 class="section-title">SYSTEM <span>ARCHITECTURE</span></h2>
+        <div class="section-header reveal">
+            <h2 class="section-title">ENGINEERED <span>SUPERIORITY</span></h2>
+            <p class="section-subtitle">Designed down to the nanometer for uncompromising reliability</p>
         </div>
 
-        <div class="specs-grid">
+        <div class="specs-grid reveal">
             <div class="spec-card">
-                <div class="spec-icon">❄️</div>
-                <h3 class="product-title">CRYO-THERMAL ARMOR</h3>
-                <p class="product-desc">Advanced heat dissipation ensures zero thermal throttling, even when rendering or running AAA titles at max settings.</p>
+                <div class="spec-icon">&#9889;</div>
+                <h3 class="spec-title">Zero Throttle Thermal Armor</h3>
+                <p class="spec-desc">Graphene-coated aluminum heat sinks dissipate thermal load 35% faster during peak performance sessions.</p>
             </div>
+
             <div class="spec-card">
-                <div class="spec-icon">⚡</div>
-                <h3 class="product-title">DIRECT-STORAGE TUNED</h3>
-                <p class="product-desc">Bypass CPU bottlenecks. Stream massive texture payloads directly to your GPU for instantaneous world loading.</p>
+                <div class="spec-icon">&#128737;</div>
+                <h3 class="spec-title">ECC Data Integrity</h3>
+                <p class="spec-desc">On-die Error Correction Code automatically detects and repairs memory bit faults in real time.</p>
             </div>
+
             <div class="spec-card">
-                <div class="spec-icon">🛡️</div>
-                <h3 class="product-title">ECC INTEGRITY</h3>
-                <p class="product-desc">Real-time error correction algorithms prevent data corruption and ensure total stability during heavy overclocks.</p>
+                <div class="spec-icon">&#128640;</div>
+                <h3 class="spec-title">DirectStorage Tuned</h3>
+                <p class="spec-desc">Optimized firmware bypasses CPU bottlenecks to stream high-resolution game textures straight to the GPU.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PERFORMANCE BENCHMARKS -->
+    <section id="benchmarks">
+        <div class="section-header reveal">
+            <h2 class="section-title">PERFORMANCE <span>METRICS</span></h2>
+            <p class="section-subtitle">Sequential Read/Write benchmark speed comparison (MB/s)</p>
+        </div>
+
+        <div class="benchmark-container reveal">
+            <div class="bar-group">
+                <div class="bar-label">
+                    <span>VIREX Gen5 M.2 SSD</span>
+                    <span style="color: var(--neon-cyan);">14,500 MB/s</span>
+                </div>
+                <div class="bar-bg">
+                    <div class="bar-fill" data-width="98%"></div>
+                </div>
+            </div>
+
+            <div class="bar-group">
+                <div class="bar-label">
+                    <span>Standard Gen4 NVMe</span>
+                    <span>7,000 MB/s</span>
+                </div>
+                <div class="bar-bg">
+                    <div class="bar-fill" data-width="48%"></div>
+                </div>
+            </div>
+
+            <div class="bar-group">
+                <div class="bar-label">
+                    <span>Traditional SATA SSD</span>
+                    <span>550 MB/s</span>
+                </div>
+                <div class="bar-bg">
+                    <div class="bar-fill" data-width="8%"></div>
+                </div>
             </div>
         </div>
     </section>
@@ -570,13 +888,14 @@
     <!-- ABOUT SECTION -->
     <section id="about">
         <div class="about-grid">
-            <div class="about-text">
-                <h2 class="section-title" style="text-align: left;">BORN TO <span>DOMINATE</span></h2>
-                <p>At VIREX, we engineer digital solutions for those who refuse to compromise. We design our memory components from the silicon up to maximize throughput, minimize latency, and withstand the harshest processing environments.</p>
-                <p>Whether you are building a custom liquid-cooled rig or capturing professional gameplay, our hardware runs silently in the background—so you can focus on the win.</p>
+            <div class="about-text reveal">
+                <h2 class="section-title" style="text-align: left;">THE <span>VIREX</span> ARCHITECTURE</h2>
+                <p>VIREX was founded to dismantle performance bottlenecks for esports athletes, digital creators, and hardware enthusiasts worldwide.</p>
+                <p>By pairing high-purity silicon with proprietary controller algorithms, our components deliver maximum throughput with zero compromises on system longevity.</p>
+                <p><strong>Store More. Access Faster. Live Limitless.</strong></p>
             </div>
-            <div class="about-visual">
-                <img src="Images/VIREX LOGO.png" alt="VIREX">
+            <div class="about-visual reveal">
+                <img src="Images/VIREX LOGO.png" alt="VIREX Cyber Logo">
             </div>
         </div>
     </section>
@@ -584,50 +903,59 @@
     <!-- FOOTER -->
     <footer>
         <img src="Images/VIREX LOGO.png" alt="VIREX">
-        <p>&copy; 2026 VIREX Memory Solutions. Built for the Next Generation.</p>
+        <p>&copy; 2026 VIREX Memory Solutions Inc. Built for Next-Gen Computing.</p>
     </footer>
 
     <!-- JAVASCRIPT -->
     <script>
-        // Mobile Navigation Toggle
+        // Hide Preloader
+        window.addEventListener("load", () => {
+            const preloader = document.getElementById("preloader");
+            setTimeout(() => {
+                preloader.classList.add("hidden");
+            }, 1000);
+        });
+
+        // Mobile Nav Toggle
         const navToggle = document.getElementById("navToggle");
         const navLinks = document.getElementById("navLinks");
-        
         navToggle.addEventListener("click", () => {
             navLinks.classList.toggle("open");
         });
 
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('open');
-            });
+        // Sticky Navbar Effect
+        window.addEventListener("scroll", () => {
+            const navbar = document.getElementById("navbar");
+            if (window.scrollY > 50) {
+                navbar.classList.add("nav-scrolled");
+            } else {
+                navbar.classList.remove("nav-scrolled");
+            }
         });
 
-        // Fixed Product Slider Controls
-        const sliderTrack = document.getElementById("sliderTrack");
-        const slideLeft = document.getElementById("slideLeft");
-        const slideRight = document.getElementById("slideRight");
+        // Scroll Reveal & Benchmark Animation Trigger
+        function revealOnScroll() {
+            const reveals = document.querySelectorAll(".reveal");
+            const windowHeight = window.innerHeight;
 
-        // Calculate exact scroll amount based on card width + gap
-        const getScrollAmount = () => {
-            const card = sliderTrack.querySelector('.product-card');
-            // Card width (350px) + Gap (25px)
-            return card.offsetWidth + 25; 
-        };
-
-        slideLeft.addEventListener("click", () => {
-            sliderTrack.scrollBy({
-                left: -getScrollAmount(),
-                behavior: "smooth"
+            reveals.forEach(el => {
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 80) {
+                    el.classList.add("active");
+                }
             });
-        });
 
-        slideRight.addEventListener("click", () => {
-            sliderTrack.scrollBy({
-                left: getScrollAmount(),
-                behavior: "smooth"
-            });
-        });
+            // Benchmark fill bars animation
+            const benchmarkSec = document.getElementById("benchmarks");
+            if (benchmarkSec.getBoundingClientRect().top < windowHeight - 100) {
+                document.querySelectorAll(".bar-fill").forEach(bar => {
+                    bar.style.width = bar.getAttribute("data-width");
+                });
+            }
+        }
+
+        window.addEventListener("scroll", revealOnScroll);
+        revealOnScroll(); // Trigger initial check
     </script>
 </body>
 </html>
